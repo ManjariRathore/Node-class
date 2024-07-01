@@ -2,26 +2,40 @@ const fs = require('fs');
 
 
 const http = require("http");
-const server = http.createServer((req,res)=>{
-  res.setHeader("Content-Type","text/html");
-  res.write("<html><head><title>node js class</title></head><body>");
-  if (req.url === '/login') {
-    res.write("<h1>Hello, Login!</h1>");
-  } else {
-    res.write("<h1>Hello, World!</h1>");
-  }
-  res.write("</body></html>");
-  res.end();
-});
+
+const data = fs.readFileSync("index.html", "utf-8");
+console.log(data);
 
 const port = 3000;
 const host = 'localhost' ;
 
+const server = http.createServer((req,res)=>{
+  
+  if(req.url === '/about'){
+    res.write(data);
+  }
+  else if (req.url === '/login') {
+    res.setHeader("Content-Type","text/html");
+    res.write("<html><head><title>node js class</title></head><body>");
+    res.write("<h1>Hello, Login!</h1>");
+    res.write("</body></html>");
+
+
+  } else {
+    res.setHeader("Content-Type","text/html");
+    res.write("<html><head><title>node js class</title></head><body>");
+    res.write("<h1>Hello, World!</h1>");
+    res.write("</body></html>");
+    
+  }
+  res.end();
+  
+});
 server.listen(port, host, ()=>{
-    console.log(`server is listening on http//${host}:${port}`);
+  console.log(`server is listening on http//${host}:${port}`);
 });
 
-const data = fs.readFileSync("file.txt");
+// const data = fs.readFileSync("file.txt");
 
 // console.log(""+data);
 
